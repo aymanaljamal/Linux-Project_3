@@ -1,0 +1,18 @@
+#!/bin/bash
+
+who_output=$(who | tr -s ' ' | cut -d ' ' -f1,4)
+user=$(echo "$who_output" | head -n 1 | cut -d ' ' -f1)
+login_time=$(date)
+login_hour=$(date | cut -d ' ' -f4 | cut -d ':' -f1)
+
+if [ "$login_hour" -lt 12 ]
+ then
+    greeting="Good morning"
+elif [ "$login_hour" -lt 18 ]
+then
+    greeting="Good afternoon"
+else
+    greeting="Good evening"
+fi
+
+echo "$greeting $user"

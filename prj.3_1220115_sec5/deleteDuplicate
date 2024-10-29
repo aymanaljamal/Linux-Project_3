@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]
+then
+    echo "Usage: $0 <dir1> <dir2>" >stderr
+    exit 1
+fi
+
+dir1=$1
+dir2=$2
+
+if [ ! -d "$dir1" ]
+then
+    echo "Error: $dir1 is not a directory" >stderr
+    exit 1
+fi
+
+if [ ! -d "$dir2" ]
+then
+    echo "Error: $dir2 is not a directory" >stderr
+    exit 1
+fi
+
+for file1 in "$dir1"/*
+do
+    if [ -f "$file1" ]
+     then
+    
+        file1_size=$(ls -l "$file1" | tr -s ' ' | cut -d ' ' -f 5)
+        file1_name=$(echo "$file1" | tr '/' '\n' | tail -1)
+
+      
+        for file2 in "$dir2"/*
+         do
+            if [ -f "$file2" ]
+             then
+                
+                file2_size=$(ls -l "$file2" | tr -s ' ' | cut -d ' ' -f 5)
+                file2_name=$(echo "$file2" | tr '/' '\n' | tail -1)
+
+                if [ "$file2_size" -eq "$file1_size" ] && [ "$file2_name" == "$file1_name" ]
+                then
+                    rm "$file2"
+                    echo "File $file2_name has been deleted from the $dir2 directory."
+                fi
+            fi
+        done
+    fi
+done

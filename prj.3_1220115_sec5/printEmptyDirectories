@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo "Usage: $0 directory" >stderr
+    exit 1
+fi
+
+directory=$1
+
+if [ ! -d "$directory" ]
+then
+    echo "Error: $directory is not a directory" >stderr
+    exit 1
+fi
+
+num_empty_dirs=0
+
+echo "Empty directories:"
+
+current_dir="$directory"
+dirs_to_check="$directory"
+
+while [ -n "$dirs_to_check" ]
+do
+    next_dirs=""
+
+    for dir in $dirs_to_check
+    do
+        for item in "$dir"/*
+        do
+            if [ -d "$item" ]
+             then
+                item_count=$(ls -A "$item" | wc -l)
+                if [ "$item_count" -eq 0 ]
+                then
+                    echo "$item"
+                    num_empty_dirs=$((num_empty_dirs + 1))
+                else
+                    next_dirs="$next_dirs $item"
+                fi
+            fi
+        done
+    done
+
+    dirs_to_check="$next_dirs"
+done
+
+echo "Total empty directories: $num_empty_dirs"

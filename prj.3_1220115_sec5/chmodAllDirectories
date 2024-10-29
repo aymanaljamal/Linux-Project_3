@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]
+then
+  echo "Error: Invalid arguments." >stderr
+
+  exit 1
+fi
+
+new_permission="$1"
+main_directory="$2"
+
+
+if [ ! -d "$main_directory" ]
+ then
+  echo "Error: '$main_directory' is not a directory." >stderr
+  exit 1
+fi
+
+for directory in "$main_directory"/*
+do
+  if [ -d "$directory" ]
+   then  # Use -d test directly
+    chmod "$new_permission" "$directory"
+  fi
+done
+
+echo "Permissions changed for directories in '$main_directory'."

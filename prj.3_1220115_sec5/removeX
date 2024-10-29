@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]
+then
+    echo " error in name" >stderr
+    exit 1
+fi
+
+file=$1
+shift
+
+#if [ ! -f "$file" ]
+# then
+ #  echo "Error: $file is not a regular file" >stderr
+  #  exit 1
+#fi
+
+for dir in $*
+do
+    if [ ! -d "$dir" ]
+    then
+        echo "Error: $dir is not a directory" >stderr
+        continue
+    fi
+
+    filepath="$dir/$file"
+    if [ -f "$filepath" ]
+     then
+        chmod -x "$filepath"
+        echo "Removed execute permission from $filepath"
+    else
+        echo "File $file not found in $dir"
+    fi
+done

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]
+ then
+  echo "Error: Your entry is missing required arguments. Usage: $0 word directory1 [directory2 ... directory8]" >stderr
+  exit 1
+fi
+
+word=$1
+shift
+
+if [ -f "$word" ]
+ then
+  echo "Error: '$word' should not be a regular file" >stderr
+  exit 1
+fi
+
+found=0
+
+echo "The word \"$word\" appears in the following files:"  
+
+for dir in $*
+do
+  if [ ! -d "$dir" ]
+   then
+    echo "Error: '$dir' is not a directory" >stderr
+    continue
+  fi
+
+  for file in "$dir"/*
+   do
+    if [ -f "$file" ]
+    
+    then
+     
+     num_line=$(grep "$word" "$file" | wc -l)
+
+      if [ $num_line -gt 0 ]
+      then
+        echo "$file      $num_line"
+        found=1
+      fi
+    fi
+  done
+done
+
+if [ $found -eq 0 ]
+then
+  echo "The word \"$word\" was not found in any files"
+fi

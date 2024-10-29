@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+if [ $# -ne 2 ]
+then
+    echo " erorr no name for dirctory" >stderr
+    exit 1
+fi
+
+dir1=$1
+dir2=$2
+
+
+if [ ! -d "$dir1" ] 
+then
+    echo "Error: $dir1 is not a directory" >stderr
+    exit 1
+fi
+
+if [ ! -d "$dir2" ]
+ then
+    echo "Error: $dir2 is not a directory" >stderr
+    exit 1
+fi
+
+
+files_in_dir1=$(ls "$dir1")
+
+
+echo "The following files appear in the directories \"$dir1\" and \"$dir2\":"
+for file in $files_in_dir1 
+do
+    if [ -f "$dir2/$file" ] 
+    then
+        echo "$file"
+    fi
+done

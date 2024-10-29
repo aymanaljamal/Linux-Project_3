@@ -1,0 +1,66 @@
+#!/bin/bash
+./Welcome
+while true; 
+     do
+    
+    echo "Please choose one of the following options:"
+    echo "1) Change Permission for All Directories"
+    echo "2) Print All Empty Directories"
+    echo "3) Change Permission for All Files"
+    echo "4) Delete Duplicate Files"
+    echo "5) Count and Display All Files that Contain the Same Word"
+    echo "6) Count the Number of Files that Have the Same Name Inside Different Directories"
+    echo "7) Exit"
+    echo "Enter your choice: "
+    read choice
+
+    case $choice in
+        1)
+            echo "Enter the permission (e.g., 666): "
+            read perm
+            echo "Enter the directory name: "
+            read dir
+            ./chmodAllDirectories $perm $dir
+            ;;
+        2)
+            echo "Enter the directory name: "
+            read dir
+            ./printEmptyDirectories $dir
+            ;;
+        3)
+            echo "Enter the file name to rmov x primshin"
+            read file
+            echo "Enter the directory name: "
+            read dir
+            ./removeX $file $dir
+            ;;
+        4)
+            echo "Enter the directory1 to search for duplicates: "
+            read dir1
+            echo "Enter the directory2 to search for duplicates: "
+            read dir2
+            ./deleteDuplicate $dir1 $dir2
+            ;;
+        5)
+            echo "Enter the word to search for: "
+            read word
+            echo "Enter the directory to search in: "
+            read dir
+            ./countWord "$word" "$dir"
+            ;;
+        6)
+            echo "Enter the directory to search in: "
+            read dir
+            echo "Enter another directory to compare: "
+            read dir2
+            ./countFiles "$dir" "$dir2"
+            ;;
+        7)
+            echo "Goodbye $(who | tr -s ' ' | cut -d ' ' -f1) ,I hope to see you soon"
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice"
+            ;;
+    esac
+done
